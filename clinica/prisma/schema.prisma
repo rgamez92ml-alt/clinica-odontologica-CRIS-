@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cita {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  telefono    String
+  email       String?
+  fecha       DateTime
+  hora        String
+  tratamiento String
+  notas       String?
+  status      String   @default("PENDIENTE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
