@@ -19,7 +19,7 @@ export default function Home() {
             </Link>
           </div>
           <a
-            href="https://wa.me/584123456789"
+            href="https://wa.me/584140122733"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 flex items-center gap-2 transition"
@@ -37,7 +37,7 @@ export default function Home() {
             Sonrisas que transforman vidas
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Odontología estética y restauradora con más de 10 años de experiencia.
+            Odontología estética y restauradora con más de 20 años de experiencia.
             Tu sonrisa en las mejores manos.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
@@ -48,7 +48,7 @@ export default function Home() {
               Agendar cita
             </Link>
             <a
-              href="https://wa.me/584123456789?text=Hola,%20quiero%20información%20sobre%20sus%20servicios"
+              href="https://wa.me/584140122733?text=Hola,%20quiero%20información%20sobre%20sus%20servicios"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-500 text-white px-8 py-4 rounded-full font-semibold hover:bg-green-600 transition shadow-lg"
@@ -139,8 +139,8 @@ export default function Home() {
           <div>
             <h4 className="font-bold mb-4">Contacto</h4>
             <p className="text-gray-400 mb-2">📍 Dirección del consultorio</p>
-            <p className="text-gray-400 mb-2">📞 +58 412 345 6789</p>
-            <p className="text-gray-400">✉️ email@ejemplo.com</p>
+            <p className="text-gray-400 mb-2">📞 +58 414 012 27 33</p>
+            <p className="text-gray-400">✉️ dracrisarianagamez@gmail.com</p>
           </div>
           <div>
             <h4 className="font-bold mb-4">Horario</h4>
