@@ -8,21 +8,26 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [citas, setCitas] = useState<any[]>([])
   const [cargando, setCargando] = useState(true)
+  const [actualizando, setActualizando] = useState<number | null>(null)
 
   useEffect(() => {
     if (autenticado) {
-      fetch('/api/citas')
-        .then(res => res.json())
-        .then(data => {
-          setCitas(data)
-          setCargando(false)
-        })
-        .catch(err => {
-          console.error(err)
-          setCargando(false)
-        })
+      cargarCitas()
     }
   }, [autenticado])
+
+  const cargarCitas = () => {
+    fetch('/api/citas')
+      .then(res => res.json())
+      .then(data => {
+        setCitas(data)
+        setCargando(false)
+      })
+      .catch(err => {
+        console.error(err)
+        setCargando(false)
+      })
+  }
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,6 +36,30 @@ export default function AdminPage() {
       setError('')
     } else {
       setError('Contraseña incorrecta')
+    }
+  }
+
+  const cambiarEstado = async (id: number, nuevoEstado: string) => {
+    setActualizando(id)
+    try {
+      const res = await fetch('/api/citas/actualizar', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: nuevoEstado }),
+      })
+      
+      if (res.ok) {
+        setCitas(citas.map(c => 
+          c.id === id ? { ...c, status: nuevoEstado } : c
+        ))
+      } else {
+        alert('Error al actualizar el estado')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Error al actualizar')
+    } finally {
+      setActualizando(null)
     }
   }
 
@@ -88,12 +117,25 @@ export default function AdminPage() {
                   <div><span className="text-gray-400">Hora:</span> {cita.hora}</div>
                   <div><span className="text-gray-400">Tratamiento:</span> {cita.tratamiento}</div>
                   <div className="md:col-span-2"><span className="text-gray-400">Notas:</span> {cita.notas || '—'}</div>
-                  <div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-                      cita.status === 'PENDIENTE' ? 'bg-yellow-900 text-yellow-300' : 'bg-green-900 text-green-300'
-                    }`}>
-                      {cita.status}
-                    </span>
+                  
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-400">Estado:</span>
+                    <select
+                      value={cita.status}
+                      onChange={(e) => cambiarEstado(cita.id, e.target.value)}
+                      disabled={actualizando === cita.id}
+                      className={`px-3 py-1 rounded-lg text-sm font-bold cursor-pointer disabled:opacity-50 ${
+                        cita.status === 'PENDIENTE' 
+                          ? 'bg-yellow-900 text-yellow-300 border border-yellow-700' 
+                          : cita.status === 'ASISTIO'
+                          ? 'bg-green-900 text-green-300 border border-green-700'
+                          : 'bg-red-900 text-red-300 border border-red-700'
+                      }`}
+                    >
+                      <option value="PENDIENTE"> PENDIENTE</option>
+                      <option value="ASISTIO">✅ ASISTIÓ</option>
+                      <option value="NO_ASISTIO"> NO ASISTIÓ</option>
+                    </select>
                   </div>
                 </div>
               </div>
